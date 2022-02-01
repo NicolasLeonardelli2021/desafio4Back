@@ -49,9 +49,46 @@ routerProductos.post("/",(req, res,next)=>{
 })
 
 routerProductos.put("/:id",(req,res,next)=>{
-    const {id} = req.params
-    
+    const {id} = req.params;
+    let encontrado = false;
+    const {titulo} = req.body;
+    const {precio} = req.body;
+    const {ruta} = req.body;
+    for(producto of productos){
+        if(producto.id == id){
+            encontrado=true
+            producto.titulo = titulo;
+            producto.precio = precio;
+            producto.ruta = ruta
+        }
+    }
+    if(encontrado == false){
+        res.json({
+            "ERROR": "producto no encontrado"
+        })
+    }else{
+        res.json(productos)
+    }  
 })
+
+routerProductos.delete("/:id",(req, res, next)=>{
+    const {id} = req.params
+    let encontrado = false;
+    for(i =0; i< productos.length; i++){
+        if(productos[i].id == id){
+            encontrado=true
+            productos.splice(i,1)
+        }
+    }
+    if(encontrado == false){
+        res.json({
+            "ERROR": "producto no encontrado"
+        })
+    }else{
+        res.json(productos)
+    }  
+})
+
 app.use("/api/productos",routerProductos);
 
 app.listen(PORT, ()=>{
