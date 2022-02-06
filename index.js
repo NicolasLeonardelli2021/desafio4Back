@@ -1,19 +1,26 @@
 const express = require("express")
 const {Router} = express;
 const app = express()
-const PORT = 8080;
+const PORT = 3000;
+
 app.use(express.json());                    
 app.use(express.urlencoded({extended:true}));
 
-app.use(express.static('public'));
+app.set("views", "./views/ejs");
+app.set("view engine", "ejs");
 
 let productos = [];
 
-let routerProductos = new Router();
-
-routerProductos.get("/", (req,res,next) =>{
-    res.json(productos);
+app.get("/", (req,res,next) =>{
+    res.render("index", {productos});   
 })
+
+app.get("/productos", (req,res,next) =>{
+    res.render("data", {productos});   
+})
+
+ 
+/*
 
 routerProductos.get("/:id", (req,res,next)=>{
     let {id} = req.params;
@@ -31,8 +38,8 @@ routerProductos.get("/:id", (req,res,next)=>{
             })
         }
 })
-
-routerProductos.post("/",(req, res,next)=>{
+*/
+app.post("/",(req, res,next)=>{
     let id = productos.length + 1;
     let {titulo} = req.body;
     let {precio} = req.body;
@@ -44,10 +51,10 @@ routerProductos.post("/",(req, res,next)=>{
         "precio": precio,
         "ruta": ruta
     })
-
-    res.json(productos)
+    console.log(productos)
+    res.redirect("/")
 })
-
+/*
 routerProductos.put("/:id",(req,res,next)=>{
     const {id} = req.params;
     let encontrado = false;
@@ -70,7 +77,8 @@ routerProductos.put("/:id",(req,res,next)=>{
         res.json(productos)
     }  
 })
-
+*/
+/*
 routerProductos.delete("/:id",(req, res, next)=>{
     const {id} = req.params
     let encontrado = false;
@@ -88,8 +96,7 @@ routerProductos.delete("/:id",(req, res, next)=>{
         res.json(productos)
     }  
 })
-
-app.use("/api/productos",routerProductos);
+*/
 
 app.listen(PORT, ()=>{
     console.log(`estamos escuchando en esta url: http://localhost:${PORT}`)

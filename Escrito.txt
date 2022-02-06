@@ -1,0 +1,2 @@
+El motor de plantilla que prefiero es "ejs", ya que me parece muy comodo incrustar codigo js dentro de etiquetas html. 
+Tambien queda muy ordenado el codigo separando las partes de una web por componentes para luego renderizar el documento completo. 
